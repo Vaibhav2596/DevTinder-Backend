@@ -1,33 +1,79 @@
-const express = require('express');
+const express = require("express");
 
 const app = express();
 
-app.use("/user",(req,res) => {
-    res.send("HAHAHAHAHAHAHAHAH")
-})
+// /user?userId=101&password=testing
+// this will only handle GET call to /users, /user, /user/xyz, /user/1
+// app.get("/user", (req, res) => {
+//   console.log(req.query);
+//   res.send({
+//     firstName: "Vaibhav",
+//     lastName: "Chavan",
+//   });
+// });
 
-// this will only handle GET call to /users 
-app.get("/user",(req,res) => {
-    res.send({
-        firstName: "Vaibhav",
-        lastName : "Chavan"
-    })
-})
+app.get("/user/:userId/:name/:password", (req, res) => {
+  console.log(req.params);
+  res.send({
+    firstName: "Vaibhav",
+    lastName: "Chavan",
+  });
+});
 
-app.post("/user",(req,res) => {
-    // Saving Data to DB
-    res.send("Data Successfully saved to the database!");
-})
 
-app.delete("/user",(req,res) => {
-    res.send("Deleted Successfully")
-})
+// // ac, /abc
+// app.get("/ab?c", (req, res) => {
+//   res.send({
+//     firstName: "Vaibhav",
+//     lastName: "Chavan",
+//   });
+// });
 
-// this will match all the HTTP method API calls to /test
-app.use("/test",(req,res) => {
-    res.send("Hello from the server!");
-})
+// // ac, /abc
+// app.get("/ab+c", (req, res) => {
+//   res.send({
+//     firstName: "Vaibhav",
+//     lastName: "Chavan",
+//   });
+// });
+
+// ac, /abc
+// app.get("/ab*cd", (req, res) => {
+//   res.send({
+//     firstName: "Vaibhav",
+//     lastName: "Chavan",
+//   });
+// });
+
+// app.get("/a(bc)?d", (req, res) => {
+//   res.send({
+//     firstName: "Vaibhav",
+//     lastName: "Chavan",
+//   });
+// });
+
+// app.get("/a(bc)+d", (req, res) => {
+//   res.send({
+//     firstName: "Vaibhav",
+//     lastName: "Chavan",
+//   });
+// });
+
+// Regex
+// app.get("/a/", (req, res) => {
+//   res.send({
+//     firstName: "Vaibhav",
+//     lastName: "Chavan",
+//   });
+// });
+
+app.get("/.*fly/", (req, res) => {
+  res.send({
+    firstName: "Vaibhav",
+    lastName: "Chavan",
+  });
+});
 
 app.listen(7777, () => {
-    console.log("Server is successfully listening on port 7777...");
+  console.log("Server is successfully listening on port 7777...");
 });
