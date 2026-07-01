@@ -6,40 +6,20 @@ const app = express();
 // app.use("/route",[rh1,rh2,rh3,rh4,rh5])
 // app.use("/route",[rh1,rh2,rh3],rh4,rh5)
 
-app.use(
+app.get(
   "/user",
-  [(req, res, next) => {
-    // Route Handler
-    // res.send("Route Handler 1");
+  (req, res, next) => {
     console.log("Handling the route user!!");
-    // res.send("Response!!");
     next();
-    // res.send("Response!!");
-  },
+  }
+);
+
+app.get(
+  "/user",
   (req, res, next) => {
-    // Route Handler 2
     console.log("Handling the route user 2!!");
-    // res.send("2nd Response!!");
-    next();
-  },
-  (req, res, next) => {
-    // Route Handler 3
-    console.log("Handling the route user 3!!");
-    // res.send("3rd Response!!");
-    next();
-  },
-  (req, res, next) => {
-    // Route Handler 4
-    console.log("Handling the route user 4!!");
-    // res.send("4rd Response!!");
-    next();
-  },
-    (req, res, next) => {
-    // Route Handler 4
-    console.log("Handling the route user 5!!");
-    res.send("5th Response!!");
-    // next();
-  }]
+    res.send("2nd Route Handler")
+  }
 );
 
 
