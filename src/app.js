@@ -9,26 +9,30 @@ const app = express();
 // GET /users => It checks all the app.xxx("matching route") functions
 // GET /users => middleware chain => request handler
 
-app.use("/", (req,res,next) => {
-  // res.send("Handling / route");
-  next()
-});
+// Handle Auth Middleware for all GET POST, ... requests
+app.use("/admin",(req,res,next) => {
+    // Logic of checking if the request is authorized
+  const token = "xyzab";
+  const isAdminAuthorized = token === "xyz";
+  if(!isAdminAuthorized){
+    res.status(401).send("Unauthorized Request");
+  }else{
+    next();
+  }
+})
 
-app.get(
-  "/user",
-  (req, res, next) => {
-    next();
-  },
-  (req, res, next) => {
-    next();
-  },
-  (req, res, next) => {
-    res.send("2nd Route Handler");
-  },
-);
+app.get("/admin/getAllData",(req, res, next) => {
+  res.send("All Data Sent")
+})
+
+app.get("/admin/deleteUser",(req, res, next) => {
+  // Logic of checking if the request is authorized
+  res.send("Deleted a user")
+})
 
 app.listen(7777, () => {
   console.log("Server is successfully listening on port 7777...");
 });
 
-// 46 minutes
+
+// 1:13
