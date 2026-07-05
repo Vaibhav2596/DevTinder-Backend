@@ -1,4 +1,5 @@
 const express = require("express");
+const {adminAuth, userAuth} = require("./middlewares/auth")
 
 const app = express();
 
@@ -10,15 +11,14 @@ const app = express();
 // GET /users => middleware chain => request handler
 
 // Handle Auth Middleware for all GET POST, ... requests
-app.use("/admin",(req,res,next) => {
-    // Logic of checking if the request is authorized
-  const token = "xyzab";
-  const isAdminAuthorized = token === "xyz";
-  if(!isAdminAuthorized){
-    res.status(401).send("Unauthorized Request");
-  }else{
-    next();
-  }
+app.use("/admin",adminAuth)
+
+app.post("/user/login",(req,res) => {
+  res.send("User logged in successfully!")
+})
+
+app.get("/user/data",userAuth, (req,res) => {
+  res.send("User Data Sent")
 })
 
 app.get("/admin/getAllData",(req, res, next) => {
@@ -33,6 +33,3 @@ app.get("/admin/deleteUser",(req, res, next) => {
 app.listen(7777, () => {
   console.log("Server is successfully listening on port 7777...");
 });
-
-
-// 1:13
