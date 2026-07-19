@@ -73,37 +73,41 @@ app.delete("/user", async (req, res) => {
   try {
     // const user = await User.findByIdAndDelete({_id : userId});
     const user = await User.findByIdAndDelete(userId);
-    res.send("User Deleted Successfully")
+    res.send("User Deleted Successfully");
   } catch (err) {
     res.status(400).send("Something Went Wrong!");
   }
 });
 
 // Update data of the user
-app.patch("/user", async (req,res) => {
+app.patch("/user", async (req, res) => {
   const userId = req.body.userId;
   const data = req.body;
-  try{
-    const user = await User.findByIdAndUpdate(userId,data,{returnDocument: "after"});
+  try {
+    const user = await User.findByIdAndUpdate(userId, data, {
+      returnDocument: "after",
+      runValidators: true,
+    });
     console.log(user);
-    res.send("User Updated Successfully")
-  } catch(err){
-
+    res.send("User Updated Successfully");
+  } catch (err) {
+    res.status(400).send("Update Failed " + err.message);
   }
-})
+});
 
 // Update data of the user by emailid
-app.patch("/userbyemail", async (req,res) => {
+app.patch("/userbyemail", async (req, res) => {
   const userEmail = req.body.emailId;
   const data = req.body;
-  try{
-    const user = await User.findOneAndUpdate({emailId : userEmail},data,{returnDocument: "after"});
+  try {
+    const user = await User.findOneAndUpdate({ emailId: userEmail }, data, {
+      returnDocument: "after",
+      runValidators: true,
+    });
     console.log(user);
-    res.send("User Updated Successfully")
-  } catch(err){
-
-  }
-})
+    res.send("User Updated Successfully");
+  } catch (err) {}
+});
 
 connectDB()
   .then(() => {

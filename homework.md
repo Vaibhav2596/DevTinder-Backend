@@ -58,3 +58,10 @@
 - Explore the Mongoose Documentation for Model methods
 - What are options in a Model.findOneAndUpdate method, explore more about it
 - API - Update the user with email ID
+
+- Explore schematype options from the documentation
+- Add required, unique, lowercase, min, minLength, trim
+- Add default
+- Create a custom validate function for gender 
+- Improve the DB schema - PUT all appropriate validations on each field in Schema
+- Add timestamps to the User schema
