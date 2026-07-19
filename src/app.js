@@ -42,6 +42,21 @@ app.get("/user", async (req, res) => {
   }
 });
 
+// Get User by id
+app.get("/userbyid", async (req, res) => {
+  const userId = req.body.Id;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      res.status(404).send("User Not Found");
+    }
+    res.send(user);
+  } catch (err) {
+    res.status(400).send("Something Went Wrong!");
+  }
+});
+
 // Feed API - GET/feed - get all the users from the database
 app.get("/feed", async (req, res) => {
   try {
@@ -51,6 +66,31 @@ app.get("/feed", async (req, res) => {
     res.status(400).send("Something Went Wrong!");
   }
 });
+
+// Delete a User from the database
+app.delete("/user", async (req, res) => {
+  const userId = req.body.userId;
+  try {
+    // const user = await User.findByIdAndDelete({_id : userId});
+    const user = await User.findByIdAndDelete(userId);
+    res.send("User Deleted Successfully")
+  } catch (err) {
+    res.status(400).send("Something Went Wrong!");
+  }
+});
+
+// Update data of the user
+app.patch("/user", async (req,res) => {
+  const userId = req.body.userId;
+  const data = req.body;
+  try{
+    const user = await User.findByIdAndUpdate(userId,data,{returnDocument: "after"});
+    console.log(user);
+    res.send("User Updated Successfully")
+  } catch(err){
+
+  }
+})
 
 connectDB()
   .then(() => {
