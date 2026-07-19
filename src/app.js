@@ -92,6 +92,19 @@ app.patch("/user", async (req,res) => {
   }
 })
 
+// Update data of the user by emailid
+app.patch("/userbyemail", async (req,res) => {
+  const userEmail = req.body.emailId;
+  const data = req.body;
+  try{
+    const user = await User.findOneAndUpdate({emailId : userEmail},data,{returnDocument: "after"});
+    console.log(user);
+    res.send("User Updated Successfully")
+  } catch(err){
+
+  }
+})
+
 connectDB()
   .then(() => {
     console.log("Database Connection Established");
