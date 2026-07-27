@@ -3,9 +3,7 @@ const connectDB = require("./config/database");
 const app = express();
 const User = require("./models/user");
 const { validateSignUpData, validateEmailId } = require("./utils/validation");
-const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
 const { userAuth } = require("./middlewares/auth");
 
 // Middleware given by express js
@@ -47,17 +45,13 @@ app.post("/login", async (req, res) => {
     if (!user) {
       throw new Error("Invalid Credentials");
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await user.validatePassword(password);
 
     if (isPasswordValid) {
-      // Create a JWT Token
-      const token = await jwt.sign({ _id: user._id }, "DEV@Tinder%790", {expiresIn : "1d"});
-      console.log(token);
-
-      // Add the token to cookie and send the response back to the user
+      const token = await user.getJWT();
 
       res.cookie("token", token,{
-        expires : new Date(Date.now() + 8 * 3600000),
+        expires : new Date(Date.now() + 7 * 3600000),
       });
       res.send("Login Successful!!!");
     } else {
