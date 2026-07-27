@@ -6,7 +6,7 @@ const { validateSignUpData, validateEmailId } = require("./utils/validation");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
-const {userAuth} = require("./middlewares/auth");
+const { userAuth } = require("./middlewares/auth");
 
 // Middleware given by express js
 app.use(express.json());
@@ -51,12 +51,14 @@ app.post("/login", async (req, res) => {
 
     if (isPasswordValid) {
       // Create a JWT Token
-      const token = await jwt.sign({ _id: user._id }, "DEV@Tinder%790");
+      const token = await jwt.sign({ _id: user._id }, "DEV@Tinder%790", {expiresIn : "1d"});
       console.log(token);
 
       // Add the token to cookie and send the response back to the user
 
-      res.cookie("token", token);
+      res.cookie("token", token,{
+        expires : new Date(Date.now() + 8 * 3600000),
+      });
       res.send("Login Successful!!!");
     } else {
       throw new Error("Invalid Credentials");
@@ -66,11 +68,22 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/profile",userAuth, async (req, res) => {
+app.get("/profile", userAuth, async (req, res) => {
   try {
     const user = req.user;
 
     res.send(user);
+  } catch (err) {
+    res.status(400).send("ERROR : " + err.message);
+  }
+});
+
+app.post("/sendConnectionRequest", userAuth, async (req, res) => {
+  try {
+    const user = req.user;
+
+
+    res.send(user.firstName + " sent a Connection Request!!");
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
   }
