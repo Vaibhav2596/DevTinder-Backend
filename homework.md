@@ -134,4 +134,6 @@ NOTES:
 
 /feed?page=4&limit=10 => 31-40  => .skip(30) & .limit(10)
 
-skip = (page - 1)*limit
+skip = (page - 1) * limit
+
+npm create vite@latest devTinder-web -- --template react
